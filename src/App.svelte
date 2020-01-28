@@ -36,7 +36,7 @@
 	$: if ($camera) $camera.position.x = $cameraX;
 
 	function handlePanMove({detail: {x, dx}}) {
-		acc = dx * 0.015;
+		acc = dx * 0.25;
 		cameraX.set(constrain($cameraX - acc, minPosition, maxPosition));
 	}
 
