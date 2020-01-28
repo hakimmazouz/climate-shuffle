@@ -7,7 +7,7 @@
 	export let node, pause = false, autoStart = true, width = 0, height = 0, once = false ;
 
 	export const renderer = new Renderer();
-	renderer.setDevicePixelRatio(window.devicePixelRatio);
+	renderer.setPixelRatio(window.devicePixelRatio);
 	contextConfig.renderer.set(renderer);
 
 	const render = () => {
