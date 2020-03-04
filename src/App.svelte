@@ -2,11 +2,14 @@
 	import { spring } from 'svelte/motion'
 	import { writable } from 'svelte/store'
 	import { onMount } from 'svelte';
-	import {camera, render} from './three/config'
+	import {camera, render, scroll, wheel} from './three/config'
+	import SmoothScroll from './components/SmoothScroll.svelte';
 	import Three from './three/Three.svelte';
 	import Scene from './three/Scene.svelte';
 	import Camera from './three/Camera.svelte';
-	import Cube from './components/Cube.svelte';
+	import SectionMe from './components/SectionMe.svelte';
+	import SectionWork from './components/SectionWork.svelte';
+	import SectionThoughts from './components/SectionThoughts.svelte';
 
 	import pannable from './actions/pannable'
 	import { map, mapConstrain, constrain } from './utils'
@@ -22,8 +25,8 @@
 	$: maxPosition = cubes.reduce((total, current) => total += 4, -4);
 
 
-	let cubes = new Array(5).fill("").map((_, index) => ({
-		height: Math.max(5, Math.random() * 2.5),
+	let cubes = new Array(15).fill("").map((_, index) => ({
+		height: Math.max(2, Math.random() * 1.1),
 		mesh: undefined,
 		index
 	}));
@@ -44,20 +47,19 @@
 		interacting = true;
 		cameraX.damping = 1;
 		cameraX.stiffness = .5;
-		cubes = cubes.map(c => ({ ...c, height: c.height*1.2 }));
+		// cubes = cubes.map(c => ({ ...c, height: c.height*1.2 }));
 	}
 
 	function handlePanEnd() {
 		interacting = false;
 		cameraX.damping = 0.25;
 		cameraX.stiffness = 0.1;
-		$cameraX = getNearestCubePosition();
-		cubes = cubes.map(c => ({ ...c, height: c.height - c.height/6 }));
+		// $cameraX = getNearestCubePosition();
+		// cubes = cubes.map(c => ({ ...c, height: c.height - c.height/6 }));
 	}
 
 	function getNearestCubePosition() {
 		const closestCube = cubes.map(c => c.mesh).sort((a, b) => {
-			console.log(a.position.x, b.position.x);
 			const distA = Math.abs($cameraX - a.position.x);
 			const distB = Math.abs($cameraX - b.position.x);
 			return distA < distB ? -1 : 1
@@ -66,19 +68,25 @@
 	}
 </script>
 
-<main class={interacting ? "grabbing" : "grab"} bind:this={container} use:pannable on:panmove={handlePanMove} on:panstart={handlePanStart} on:panend={handlePanEnd}>
+<SmoothScroll />
+
+<main class={interacting ? "grabbing" : "grab"} bind:this={container}  use:pannable on:panmove={handlePanMove} on:panstart={handlePanStart} on:panend={handlePanEnd}>
 {#if container}
 	<Three bind:node={container}>
-		<Scene></Scene>
 		<Camera fov={90}></Camera>
-		{#each cubes as cube}
-			<Cube height={cube.height} distToCam={cube.mesh ? Math.abs($cameraX - cube.mesh.position.x) : 0} bind:mesh={cube.mesh} index={cube.index}></Cube>
-		{/each}
+		<Scene>
+			<SectionMe />
+			<SectionWork />
+			<SectionThoughts />
+		</Scene>
 	</Three>
 {/if}
 </main>
 
 <style>
+	:global(body) {
+		overflow: hidden;
+	}
 	main {
 		position: fixed;
 		top: 0;

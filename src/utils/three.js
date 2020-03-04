@@ -2,12 +2,14 @@
 
 export { WebGLRenderer } from "three/src/renderers/WebGLRenderer.js";
 export { ShaderLib } from "three/src/renderers/shaders/ShaderLib.js";
+export { Uniform } from "three/src/core/Uniform.js";
 export { UniformsLib } from "three/src/renderers/shaders/UniformsLib.js";
 export { UniformsUtils } from "three/src/renderers/shaders/UniformsUtils.js";
 export { ShaderChunk } from "three/src/renderers/shaders/ShaderChunk.js";
 export { Scene } from "three/src/scenes/Scene.js";
 export { Fog } from "three/src/scenes/Fog.js";
 export { Mesh } from "three/src/objects/Mesh.js";
+export { Clock } from "three/src/core/Clock.js";
 export { LineSegments } from "three/src/objects/LineSegments.js";
 export { Line } from "three/src/objects/Line.js";
 export { CubeTexture } from "three/src/textures/CubeTexture.js";
@@ -72,7 +74,7 @@ export { Face3 } from "three/src/core/Face3.js";
 export { Object3D } from "three/src/core/Object3D.js";
 export { Raycaster } from "three/src/core/Raycaster.js";
 export { Triangle } from "three/src/math/Triangle.js";
-export { _Math as Math } from "three/src/math/Math.js";
+export { _Math as MathUtils } from "three/src/math/Math.js";
 export { Spherical } from "three/src/math/Spherical.js";
 export { Cylindrical } from "three/src/math/Cylindrical.js";
 export { Plane } from "three/src/math/Plane.js";
@@ -97,4 +99,5 @@ export { InstancedBufferGeometry } from "three/src/core/InstancedBufferGeometry.
 export { InstancedInterleavedBuffer } from "three/src/core/InstancedInterleavedBuffer.js";
 export { InterleavedBufferAttribute } from "three/src/core/InterleavedBufferAttribute.js";
 export { ShaderMaterial } from "three/src/materials/ShaderMaterial.js";
+export { RawShaderMaterial } from "three/src/materials/RawShaderMaterial.js";
 export { WireframeGeometry } from "three/src/geometries/WireframeGeometry.js";
