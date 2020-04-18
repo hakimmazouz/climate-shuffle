@@ -51,10 +51,10 @@
 			y: '+=5'
 		});
 		gsap.from(titleMesh.map(m => m.position), {
-			y: '-=5',
-			// y: (index) => {
-			// 	return index >= currentProject ? '+=5' : '-=5'
-			// },
+			// y: '-=5',
+			y: (index) => {
+				return index >= currentProject ? '+=5' : '-=5'
+			},
 			duration: 3,
 			delay: .5,
 			ease: 'power4.inOut',
