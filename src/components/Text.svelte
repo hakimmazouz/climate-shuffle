@@ -25,6 +25,9 @@
 
 	export let mesh = null, geo = null;
 
+	const ratio = window.innerWidth/window.innerHeight;
+	const scaledSize = size * map(ratio, 0.56, 2, 0.4, 1);
+
 	loadFont(fontPath, (err, font) => {
 
 		geo = createGeometry({
@@ -74,7 +77,7 @@
 			
 			mesh = new Mesh(geo, mat);
 			mesh.scale.y = -1;
-			mesh.scale.multiply(new Vector3(size * 0.001, size * 0.001, 1))
+			mesh.scale.multiply(new Vector3(scaledSize * 0.001, scaledSize * 0.001, 1))
 
 			const shiftX = -geo.layout.width*0.5 * mesh.scale.x;
 			const shiftY = -geo.layout.height*0.5 * mesh.scale.x;

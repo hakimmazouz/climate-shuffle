@@ -15,6 +15,7 @@ import {
     BloomEffect,
 } from "postprocessing";
 import { distortion } from "./../config";
+import { mapConstrain } from "./../../utils";
 
 import distortionFrag from "./../shaders/lensedistortion.pass.frag";
 import distortionVert from "./../shaders/chromaticaberration.vert";
@@ -30,6 +31,8 @@ export default class PostProcessing {
 
         this.effects = {};
         this.onReady = onReady;
+
+        this.baseRGBShift = 0.0004;
 
         this.setupSMAA().then(this.configurePasses.bind(this));
     }
@@ -50,7 +53,7 @@ export default class PostProcessing {
         this.createShaderPass();
         this.createEffectPass({
             rgb: new ChromaticAberrationEffect({
-                offset: new Vector2(0.0004, 0),
+                offset: new Vector2(this.baseRGBShift, 0),
             }),
             noise: {
                 effect: new NoiseEffect({
@@ -60,11 +63,11 @@ export default class PostProcessing {
                     effect.blendMode.opacity.value = 0.25;
                 },
             },
-            vignette: new VignetteEffect({
-                // eskil: true,
-                offset: 1,
-                darkness: 1,
-            }),
+            // vignette: new VignetteEffect({
+            //     // eskil: true,
+            //     offset: 1,
+            //     darkness: 0.6,
+            // }),
             bloom: new BloomEffect(),
         });
         this.createSMAAPass();
@@ -145,6 +148,15 @@ export default class PostProcessing {
         });
         this.shaderPass = new ShaderPass(this.distortion);
         this.unsubDistortion = distortion.subscribe((value) => {
+            const rgbShiftAmplification = mapConstrain(
+                -value,
+                1,
+                6,
+                this.baseRGBShift,
+                this.baseRGBShift * 6
+            );
+            if (this.effects.rgb)
+                this.effects.rgb.offset.set(rgbShiftAmplification, 0);
             this.distortion.uniforms.distortion.value = value;
         });
     }

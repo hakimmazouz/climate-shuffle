@@ -2,7 +2,7 @@
 	import gsap from 'gsap';
 	import { camera, currentSection, distortion } from './../three/config';
 	import { SECTIONS } from './../utils/const'
-	import { constrain } from './../utils'
+	import { constrain, mapConstrain } from './../utils'
 
 	const {
 		ME, 
@@ -15,7 +15,9 @@
 
 	function onUpdate() {
 		const zDiff = $camera.position.z - lastZ;
-		$distortion = constrain(Math.min((zDiff)* 20, -1) , -30, 1)
+		const ratio = window.innerWidth/window.innerHeight;
+		const scaledMinimumDistortion =  mapConstrain(-ratio, -1.76, -0.60, -1, 1);
+		$distortion = constrain(Math.min(zDiff* 20, scaledMinimumDistortion) , -30, 1)
 		// $camera.position.x += constrain(zDiff, 0, .5) * Math.random() * shiftDirection($camera.position.x);
 		// $camera.position.y += constrain(zDiff, 0, .5) * Math.random() * shiftDirection($camera.position.y);
 		lastZ = $camera.position.z;
