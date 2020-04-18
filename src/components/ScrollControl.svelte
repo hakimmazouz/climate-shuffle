@@ -37,6 +37,7 @@
 
 	function onPanEnd() {
 		touchdown = false;
+		console.log(velocity);
 	}
 
 	function updateScrollPhysics() {
