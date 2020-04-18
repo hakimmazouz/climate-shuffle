@@ -15,7 +15,7 @@ import {
     BloomEffect,
 } from "postprocessing";
 import { distortion } from "./../config";
-import { mapConstrain } from "./../../utils";
+import { map } from "./../../utils";
 
 import distortionFrag from "./../shaders/lensedistortion.pass.frag";
 import distortionVert from "./../shaders/chromaticaberration.vert";
@@ -63,12 +63,10 @@ export default class PostProcessing {
                     effect.blendMode.opacity.value = 0.25;
                 },
             },
-            // vignette: new VignetteEffect({
-            //     // eskil: true,
-            //     offset: 1,
-            //     darkness: 0.6,
-            // }),
-            bloom: new BloomEffect(),
+            bloom: new BloomEffect({
+                // blendFunction: BlendFunction.NEGATION,
+                // blendFunction: BlendFunction.OVERLAY,
+            }),
         });
         this.createSMAAPass();
 
@@ -148,12 +146,12 @@ export default class PostProcessing {
         });
         this.shaderPass = new ShaderPass(this.distortion);
         this.unsubDistortion = distortion.subscribe((value) => {
-            const rgbShiftAmplification = mapConstrain(
+            const rgbShiftAmplification = map(
                 -value,
                 1,
                 6,
                 this.baseRGBShift,
-                this.baseRGBShift * 6
+                this.baseRGBShift * 10
             );
             if (this.effects.rgb)
                 this.effects.rgb.offset.set(rgbShiftAmplification, 0);

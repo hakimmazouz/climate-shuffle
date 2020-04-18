@@ -13,7 +13,7 @@ const scene = new Scene();
 setContext('parent', scene);
 
 scene.background = background;
-scene.fog = new Fog(background, 10, 40);
+scene.fog = new Fog(background, 15, 40);
 sceneStore.set(scene);
 </script>
 

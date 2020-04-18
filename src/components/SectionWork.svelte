@@ -22,7 +22,7 @@
 	}
 
 	const unsubRoute = currentSection.subscribe(() => {
-		// if (goingTo(SECTIONS.WORK.slug)) gsap.delayedCall(2, turnOnLights);
+		if (goingTo(SECTIONS.WORK.slug)) turnOnLights();
 		if (leaving(SECTIONS.WORK.slug)) turnOffLights();
 	})
 
@@ -45,9 +45,6 @@
 			stagger: -.01,
 			value: 0,
 			ease: 'power3.in',
-			onComplete() {
-				lightUpProject(currentProject);
-			},
 			onUpdate() {
 				lights = lights;
 			}
@@ -55,11 +52,14 @@
 	}
 
 	function lightUpProject(index) {
-		gsap.to(lights.slice(index * amountPerProject, index*amountPerProject + amountPerProject), {
+		const highlights = lights.slice(0, index*amountPerProject + amountPerProject).filter(l => l.value < 1);
+		// const highlights = lights.slice(index * amountPerProject, index*amountPerProject + amountPerProject);
+		gsap.to(highlights, {
 			duration: 1,
 			stagger: .05,
 			value: 1,
 			ease: 'power3.out',
+			overwrite: true,
 			onUpdate() {
 				lights = lights;
 			}
