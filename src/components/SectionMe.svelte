@@ -14,16 +14,19 @@
 	const introTextVisibility = {value: 0}
 
 	function goingTo(slug) {
-		console.log(slug, $currentSection, $prevSection)
-		return $currentSection === slug && prevSection !== slug;
+		return $currentSection === slug && $prevSection !== slug;
+	}
+	function leaving(slug) {
+		return $prevSection === slug && $currentSection !== slug;
 	}
 
 	const unsubRoute = currentSection.subscribe(() => {
 		if (goingTo(SECTIONS.ME.slug)) enterIntroText();
+		if (leaving(SECTIONS.ME.slug)) exitIntroText();
 	})
 
 	function enterIntroText() {
-		console.log('entering');
+		gsap.killTweensOf(introTextVisibility);
 		gsap.fromTo(introTextVisibility, 4, {
 			value: 0
 		}, {
@@ -35,9 +38,20 @@
 		})
 	}
 
-	onMount(() => {
-		enterIntroText()
-	})
+	function exitIntroText() {
+		gsap.killTweensOf(introTextVisibility);
+		gsap.to(introTextVisibility, 1, {
+			value: 0,
+			onUpdate() {
+				introTextVisibility = introTextVisibility
+			},
+			ease: 'power3.in',
+		})
+	}
+
+	// onMount(() => {
+	// 	enterIntroText()
+	// })
 	
 </script>
 

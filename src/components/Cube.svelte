@@ -1,7 +1,7 @@
 <script>
 import { onMount, getContext } from "svelte"
 import { spring } from "svelte/motion"
-import { Vector3, BoxBufferGeometry, MeshLambertMaterial, Mesh, PointLight, PointLightHelper } from "three$"
+import { Vector3, BoxBufferGeometry, MeshPhongMaterial, Mesh, PointLight, PointLightHelper } from "three$"
 import { fetchContext } from "./../three/config";
 import { map } from './../utils'
 
@@ -10,7 +10,7 @@ const { scene, render } = fetchContext();
 const parent = getContext('parent');
 
 const geo = new BoxBufferGeometry(size, size, size);
-const mat = new MeshLambertMaterial({color: 0xffffff});
+const mat = new MeshPhongMaterial({color: 0xffffff});
 export const mesh = new Mesh(geo, mat);
 
 $: mesh.position.x = x;

@@ -121,31 +121,33 @@
 	setContext('parent', group);
 
 	function animateUp() {
+		const prevProject = currentProject;
 		const newProject = constrain(currentProject + 1, 0, items.length - 1);
 		gsap.to(titleMesh.map(m => m.position), {
 			y: '+=1.5',
-			duration: .5,
+			duration: 1,
 			ease: 'power3.out',
 
 		})
-		selectProject(newProject, currentProject);
+		gsap.delayedCall(0, () => selectProject(newProject, prevProject));
 		currentProject = newProject;
 	}
 	function animateDown() {
+		const prevProject = currentProject;
 		const newProject = constrain(currentProject - 1, 0, items.length - 1);
 		gsap.to(titleMesh.map(m => m.position), {
 			y: '-=1.5',
-			duration: .5,
+			duration: 1,
 			ease: 'power3.out',
 		})
-		selectProject(newProject, currentProject);
+		gsap.delayedCall(0, () => selectProject(newProject, prevProject));
 		currentProject = newProject;
 	}
 
 	const onWheel = throttle(({deltaY}) => {
 		if (!enterComplete) return
 		if ($currentSection !== SECTIONS.WORK.slug) return
-		if (Math.abs(deltaY) < 3) return;
+		// if (Math.abs(deltaY) < 3) return;
 		const goingUp = Math.sign(deltaY) === 1;
 
 		if (goingUp) {
@@ -154,7 +156,7 @@
 			if (currentProject > 0) animateDown();
 		}
 
-	}, 500, {trailing: false})
+	}, 1250, {trailing: false})
 
 
 	onMount(() => {

@@ -28,7 +28,7 @@ group.add(ringRim);
 // group.rotation.x -= Math.PI*0.15;
 
 const mainLight = new PointLight(0xffffff, .5, 10);
-mainLight.position.z = 1;
+mainLight.position.z = -7;
 group.add(mainLight);
 
 $: group.position.z = z;

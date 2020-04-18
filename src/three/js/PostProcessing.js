@@ -50,7 +50,7 @@ export default class PostProcessing {
         this.createShaderPass();
         this.createEffectPass({
             rgb: new ChromaticAberrationEffect({
-                offset: new Vector2(0.0005 * DPR, 0),
+                offset: new Vector2(0.0006, 0),
                 eskil: true,
             }),
             noise: {
@@ -58,7 +58,7 @@ export default class PostProcessing {
                     blendFunction: BlendFunction.REFLECT,
                 }),
                 config: (effect) => {
-                    effect.blendMode.opacity.value = 0.65;
+                    effect.blendMode.opacity.value = 0.6;
                 },
             },
             vignette: new VignetteEffect(),

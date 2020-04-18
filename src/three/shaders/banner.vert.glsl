@@ -14,6 +14,12 @@ varying float displacement;
 uniform float offset;
 varying float depth;
 
+float random (vec2 st) {
+    return fract(sin(dot(st.xy,
+                         vec2(12.9898,78.233)))*
+        43758.5453123);
+}
+
 void main() {
 
   // vUv = uv;
@@ -35,8 +41,12 @@ void main() {
   float leftEdge = width*progress;
   float rightEdge = width*progress + width*0.33;
   p.z += clamp(smoothstep(rightEdge, leftEdge, p.x), 0., 1.);
-  p.z -= 0.5;
+  p.z -= 0.45;
   p.z += selected * 0.6;
+  // p.x += (sin(p.x * freq + time) * 0.5 + 0.5) * 100. * (1. - selected);
+  // p.y += random(p.xy + time) * 2. * (1. - selected);
+  // p.x += random(p.xy + time) * -200. * (1. - selected);
+  // p.y += random(p.xy + time) * 2. * (1. - selected);
   depth = p.z;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
