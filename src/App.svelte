@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import {camera, render} from './three/config'
 	import HUD from './components/HUD.svelte';
+	// import Cursor from './components/DynamicCursor.svelte';
 	import CameraControl from './components/CameraControl.svelte';
 	import ScrollControl from './components/ScrollControl.svelte';
 	import Three from './three/Three.svelte';
@@ -19,6 +20,7 @@
 
 
 <HUD />
+<!-- <Cursor /> -->
 
 <!-- InteractionControls -->
 <CameraControl />

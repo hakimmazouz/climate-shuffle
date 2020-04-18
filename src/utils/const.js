@@ -13,4 +13,4 @@ export const SECTIONS = {
     },
 };
 
-export const DPR = window.innerWidth <= 1920 ? 2 : 1;
+export const DPR = window.innerWidth <= 2560 ? 2 : 1.5;

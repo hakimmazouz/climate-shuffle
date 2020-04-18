@@ -1,14 +1,10 @@
 <script>
 	import gsap from 'gsap';
 	import { getContext, setContext, onMount } from 'svelte';
-	import { cubicInOut } from 'svelte/easing'
 	import { Group, BoxHelper, Vector3 } from 'three$';
-	import bannerVert from './../three/shaders/banner.vert.glsl';
-	import bannerFrag from './../three/shaders/banner.frag.glsl';
 	import { render, camera, scene, currentSection, prevSection } from './../three/config'
-	import { scroll } from './ScrollControl.svelte'
 	import Text from './Text.svelte'
-	import { mapConstrain, constrain } from './../utils'
+	import { constrain } from './../utils'
 	import {SECTIONS} from './../utils/const'
 	import throttle from 'lodash/throttle'
 
@@ -51,8 +47,13 @@
 				progressVal = progressVal;
 			}
 		})
-		gsap.to(titleMesh.map(m => m.position), {
-			y: '+=5',
+		gsap.set(titleMesh.map(m => m.position), {
+			y: '+=5'
+		});
+		gsap.from(titleMesh.map(m => m.position), {
+			y: (index) => {
+				return index >= currentProject ? '+=5' : '-=5'
+			},
 			duration: 3,
 			delay: .5,
 			ease: 'power4.inOut',
@@ -122,32 +123,31 @@
 
 	function animateUp() {
 		const prevProject = currentProject;
-		const newProject = constrain(currentProject + 1, 0, items.length - 1);
-		gsap.to(titleMesh.map(m => m.position), {
-			y: '+=1.5',
+		const nextProject = constrain(currentProject + 1, 0, items.length - 1);
+
+		gsap.to(group.position, {
+			y: nextProject * 1.5,
 			duration: 1,
 			ease: 'power3.out',
-
 		})
-		gsap.delayedCall(0, () => selectProject(newProject, prevProject));
-		currentProject = newProject;
+		gsap.delayedCall(0, () => selectProject(nextProject, prevProject));
+		currentProject = nextProject;
 	}
 	function animateDown() {
 		const prevProject = currentProject;
-		const newProject = constrain(currentProject - 1, 0, items.length - 1);
-		gsap.to(titleMesh.map(m => m.position), {
-			y: '-=1.5',
+		const nextProject = constrain(currentProject - 1, 0, items.length - 1);
+
+		gsap.to(group.position, {
+			y: nextProject * 1.5,
 			duration: 1,
 			ease: 'power3.out',
 		})
-		gsap.delayedCall(0, () => selectProject(newProject, prevProject));
-		currentProject = newProject;
+		gsap.delayedCall(0, () => selectProject(nextProject, prevProject));
+		currentProject = nextProject;
 	}
 
 	const onWheel = throttle(({deltaY}) => {
-		if (!enterComplete) return
 		if ($currentSection !== SECTIONS.WORK.slug) return
-		// if (Math.abs(deltaY) < 3) return;
 		const goingUp = Math.sign(deltaY) === 1;
 
 		if (goingUp) {

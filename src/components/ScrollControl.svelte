@@ -28,7 +28,6 @@
 	}
 
 	function onPanStart() {
-		console.log("on pan start");
 		touchdown = true;
 	}
 
@@ -37,7 +36,6 @@
 	}
 
 	function onPanEnd() {
-		console.log("on pan end");
 		touchdown = false;
 	}
 

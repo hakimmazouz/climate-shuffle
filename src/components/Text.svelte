@@ -38,7 +38,6 @@
 		const loader = new TextureLoader();
 
 		loader.load(fontAtlas, texture => {
-			console.log(geo);
 			const msdf = MSDFShader({
 					map: texture,
 					color: 0xFFFFFF,
@@ -87,7 +86,6 @@
 			mesh.rotateOnWorldAxis(new Vector3(0,0,1), rotateZ);
 
 			mesh.scale.normalize();
-			console.log(geo);
 
 			parent.add(mesh);
 		});
@@ -113,13 +111,5 @@
 			mesh.material.uniforms.time.value = $render.getElapsedTime()
 		};
 	}
-
-	render.subscribe(v => {
-		if (mesh) {
-			// if (index === 0) console.log(mesh.position.y)
-			// mesh.rotation.x = mapYToRotation(mesh.position.y)
-			// mesh.position.z = mapYToZ(mesh.position.y);
-		};
-	})
 
 </script>

@@ -7,7 +7,7 @@ import { fetchContext } from "./../three/config";
 import { mapConstrain } from './../utils'
 import Cube from './Cube.svelte'
 
-export let radius = 4, originRotation = 0, originRotationAxis = "x", reverseRotation = Math.round(Math.random()), z = 0, items = new Array(15).fill("").map((_, index, {length}) => ({
+export let radius = 4, idleSpin = true, originRotation = 0, originRotationAxis = "x", reverseRotation = Math.round(Math.random()), z = 0, amount = 15, lamps = new Array(amount).fill({value: 0}), items = new Array(amount).fill("").map((_, index, {length}) => ({
 		height: Math.max(2, Math.random() * 1.1),
 		mesh: undefined,
 		x: Math.sin(Math.PI*2/length * index) * radius,
@@ -67,7 +67,7 @@ onMount(() => {
 	}, 10)
 
     const unsub = render.subscribe(() => {
-		group.rotation.z += reverseRotation ? 0.001 : -0.001;
+		if (idleSpin) group.rotation.z += reverseRotation ? 0.001 : -0.001;
 
 		// origin rotation
 		if (originRotation !== 0) {
@@ -84,6 +84,6 @@ onMount(() => {
 </script>
 
 <!-- <Text /> -->
-{#each items as item}
-	<Cube size={0.75} height={item.height} x={item.x} y={item.y} z={item.z || 0} rotation={item.rotation} bind:mesh={item.mesh} index={item.index}></Cube>
+{#each items as item, index}
+	<Cube size={0.75} light={lamps[index].value} x={item.x} y={item.y} z={item.z || 0} rotation={item.rotation} bind:mesh={item.mesh} ></Cube>
 {/each}

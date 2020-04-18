@@ -50,26 +50,32 @@ export default class PostProcessing {
         this.createShaderPass();
         this.createEffectPass({
             rgb: new ChromaticAberrationEffect({
-                offset: new Vector2(0.0006, 0),
-                eskil: true,
+                offset: new Vector2(0.0004, 0),
             }),
             noise: {
                 effect: new NoiseEffect({
                     blendFunction: BlendFunction.REFLECT,
                 }),
                 config: (effect) => {
-                    effect.blendMode.opacity.value = 0.6;
+                    effect.blendMode.opacity.value = 0.25;
                 },
             },
-            vignette: new VignetteEffect(),
+            vignette: new VignetteEffect({
+                // eskil: true,
+                offset: 1,
+                darkness: 1,
+            }),
             bloom: new BloomEffect(),
         });
         this.createSMAAPass();
 
-        this.addPass(this.renderPass)
-            .addPass(this.effectPass)
-            .addPass(this.smaaPass)
-            .addPass(this.shaderPass, true);
+        this.addPass(this.renderPass).addPass(this.effectPass);
+
+        if (DPR > 1) {
+            this.addPass(this.shaderPass, true);
+        } else {
+            this.addPass(this.smaaPass).addPass(this.shaderPass, true);
+        }
 
         this.onReady.call();
     }

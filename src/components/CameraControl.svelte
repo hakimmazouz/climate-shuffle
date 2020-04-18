@@ -15,7 +15,7 @@
 
 	function onUpdate() {
 		const zDiff = $camera.position.z - lastZ;
-		$distortion = constrain(Math.min((zDiff)* 20, -0.5) , -30, 1)
+		$distortion = constrain(Math.min((zDiff)* 20, -1) , -30, 1)
 		// $camera.position.x += constrain(zDiff, 0, .5) * Math.random() * shiftDirection($camera.position.x);
 		// $camera.position.y += constrain(zDiff, 0, .5) * Math.random() * shiftDirection($camera.position.y);
 		lastZ = $camera.position.z;
@@ -30,7 +30,6 @@
 	}
 
 	$: if ($camera && routeChanged()) {
-		console.log('currentSection changed to', $currentSection);
 		switch($currentSection) {
 			case ME.slug:
 				gsap.to($camera.position, 2, {
