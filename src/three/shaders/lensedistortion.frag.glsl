@@ -1,19 +1,13 @@
-
-#include <common>
-uniform vec3 iResolution;
-uniform sampler2D iChannel0;
 uniform float distortion;
 
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-	vec2 uv = (fragCoord.xy / iResolution.xy * .8) - .4;
-	float uva = atan(uv.x, uv.y);
-	float uvd = sqrt(dot(uv, uv));
+void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
+	vec2 scaledUv = uv * 0.8 - .4;
+	float uva = atan(scaledUv.x, scaledUv.y);
+	float uvd = sqrt(dot(scaledUv, scaledUv));
 	uvd = uvd*(1.0 + distortion*uvd*uvd);
 
-	fragColor = texture2D(iChannel0, vec2(0.5) + vec2(sin(uva), cos(uva))*uvd);
-}
-
-void main() {
-	mainImage(gl_FragColor, gl_FragCoord.xy);
+	// outputColor = texture2D(inputBuffer, (uv+0.5)*uvd);
+	outputColor = texture2D(inputBuffer, vec2(0.5) + vec2(sin(uva), cos(uva))*uvd);
+	// outputColor = inputColor;
+	// outputColor = vec4(texture2D(inputBuffer, vec2(0.5) + vec2(sin(uva), cos(uva))*uvd).rgb, .0);
 }

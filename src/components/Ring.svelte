@@ -20,17 +20,23 @@ export const group = new Group();
 const { render, camera } = fetchContext();
 const parent = getContext('parent');
 
-let ringGeo = new RingBufferGeometry(radius, radius + .25, 36, 1);
-const ringMat = new MeshBasicMaterial({color: 0xaabbcc});
+let ringGeo = new RingBufferGeometry(radius, radius + .5, 36, 1);
+const ringMat = new MeshBasicMaterial({color: 0xffffff});
+// const ringMat = new MeshBasicMaterial({color: 0xaabbcc});
 let ringRim = new Mesh(ringGeo, ringMat);
 group.add(ringRim);
 // group.rotation.x -= Math.PI*0.15;
+
+const mainLight = new PointLight(0xffffff, .5, 10);
+mainLight.position.z = 1;
+group.add(mainLight);
 
 $: group.position.z = z;
 $: {
 	items.forEach((item, index, {length}) => {
 		item.x = Math.sin(Math.PI*2/length * index) * radius;
 		item.y = Math.cos(Math.PI*2/length * index) * radius;
+		item.rotation = Math.PI*2/length * index;
 	});
 	items = items;
 }
@@ -38,7 +44,7 @@ $: {
 $: {
 	group.remove(ringRim);
 
-	ringGeo = new RingBufferGeometry(radius, radius + .1, 36, 1);
+	ringGeo = new RingBufferGeometry(radius, radius + .1, 180, 1);
 	ringRim = new Mesh(ringGeo, ringMat);
 	ringRim.position.z -= 2;
 
@@ -63,7 +69,7 @@ onMount(() => {
     const unsub = render.subscribe(() => {
 		group.rotation.z += reverseRotation ? 0.001 : -0.001;
 
-		//origin rotation
+		// origin rotation
 		if (originRotation !== 0) {
 			const distToCam = Math.abs($camera.position.z - group.position.z);
 			group.rotation[originRotationAxis] = quintInOut(mapConstrain(-distToCam, -10, 0, 0, 1)) * originRotation
@@ -79,5 +85,5 @@ onMount(() => {
 
 <!-- <Text /> -->
 {#each items as item}
-	<Cube size={0.75} height={item.height} x={item.x} y={item.y} z={item.z || 0} bind:mesh={item.mesh} index={item.index}></Cube>
+	<Cube size={0.75} height={item.height} x={item.x} y={item.y} z={item.z || 0} rotation={item.rotation} bind:mesh={item.mesh} index={item.index}></Cube>
 {/each}

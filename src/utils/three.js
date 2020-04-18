@@ -46,6 +46,7 @@ export {
 export { EdgesGeometry } from "three/src/geometries/EdgesGeometry.js";
 export { Material } from "three/src/materials/Material.js";
 export { MeshPhongMaterial } from "three/src/materials/MeshPhongMaterial.js";
+export { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial.js";
 export { MeshPhysicalMaterial } from "three/src/materials/MeshPhysicalMaterial.js";
 export { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial.js";
 export { MeshStandardMaterial } from "three/src/materials/MeshStandardMaterial.js";
@@ -54,6 +55,7 @@ export { LineDashedMaterial } from "three/src/materials/LineDashedMaterial.js";
 export { SpriteMaterial } from "three/src/materials/SpriteMaterial.js";
 export { LineBasicMaterial } from "three/src/materials/LineBasicMaterial.js";
 export { TextureLoader } from "three/src/loaders/TextureLoader.js";
+export { LoadingManager } from "three/src/loaders/LoadingManager.js";
 export { Texture } from "three/src/textures/Texture.js";
 export { Sprite } from "three/src/objects/Sprite.js";
 export { SpotLightShadow } from "three/src/lights/SpotLightShadow.js";
@@ -101,3 +103,5 @@ export { InterleavedBufferAttribute } from "three/src/core/InterleavedBufferAttr
 export { ShaderMaterial } from "three/src/materials/ShaderMaterial.js";
 export { RawShaderMaterial } from "three/src/materials/RawShaderMaterial.js";
 export { WireframeGeometry } from "three/src/geometries/WireframeGeometry.js";
+
+export { BoxHelper } from "three/src/helpers/BoxHelper";
