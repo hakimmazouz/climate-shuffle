@@ -7,7 +7,6 @@ import {
     EffectComposer,
     EffectPass,
     ChromaticAberrationEffect,
-    VignetteEffect,
     BlendFunction,
     NoiseEffect,
     ShaderPass,
@@ -63,10 +62,7 @@ export default class PostProcessing {
                     effect.blendMode.opacity.value = 0.25;
                 },
             },
-            bloom: new BloomEffect({
-                // blendFunction: BlendFunction.NEGATION,
-                // blendFunction: BlendFunction.OVERLAY,
-            }),
+            bloom: new BloomEffect(),
         });
         this.createSMAAPass();
 

@@ -1,11 +1,9 @@
 <script>
 	import { currentSection, prevSection } from './../three/config';
 	import {SECTIONS} from './../utils/const'
+	import CircleNav from './CircleNav.svelte'
 
-	function changeSection(section) {
-		prevSection.set($currentSection);
-		currentSection.set(section);
-	}
+	let active;
 </script>
 
 <style>
@@ -18,7 +16,5 @@
 </style>
 
 <div class="container">
-	<button on:click={() => changeSection(SECTIONS.ME.slug)}>me</button>
-	<button on:click={() => changeSection(SECTIONS.WORK.slug)}>work</button>
-	<button on:click={() => changeSection(SECTIONS.THOUGHTS.slug)}>thoughts</button>
+	<CircleNav bind:active={active}/>
 </div>

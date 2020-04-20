@@ -6,7 +6,7 @@
 	import { createArray } from './../utils'
 	import { SECTIONS } from './../utils/const'
 
-	let projects = ["Yeezy", "Paper Collective", "Ramasjang", "Kammeradvokat", "Knabstrup"].map(c => c.toUpperCase());
+	let projects = ["Yeezy", "Paper Collective", "Dwarf", "Ramasjang", "Kammeradvokat", "Knabstrup"].map(c => c.toUpperCase());
 	let amountPerProject = 15;
 	let lights = createArray(projects.length * amountPerProject, () => ({value: 0}));
 	let currentProject;
@@ -55,8 +55,8 @@
 		const highlights = lights.slice(0, index*amountPerProject + amountPerProject).filter(l => l.value < 1);
 		// const highlights = lights.slice(index * amountPerProject, index*amountPerProject + amountPerProject);
 		gsap.to(highlights, {
-			duration: 1,
-			stagger: .05,
+			duration: .5,
+			stagger: .025,
 			value: 1,
 			ease: 'power3.out',
 			overwrite: true,
@@ -67,8 +67,8 @@
 		const otherLights = lights.slice(index*amountPerProject + amountPerProject, lights.length);
 		const lastLit = otherLights.slice(0, amountPerProject);
 		gsap.to(lastLit, {
-			duration: 1,
-			stagger: -.05,
+			duration: .5,
+			stagger: -.025,
 			value: 0.2,
 			ease: 'power3.out',
 			onUpdate() {

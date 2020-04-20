@@ -14,7 +14,7 @@
 
 	import { map } from './../utils'
 
-	export let title = 'Insert title', rotateZ = 0, index = null, progress = 1, selectedStatus = false, size = 15, align = "center", width = undefined;
+	export let title = 'Insert title', rotateZ = 0, index = null, progress = 1, selectedStatus = false, size = 15, distance = 1.5, align = "center", width = undefined;
 	const parent = getContext('parent');
 	const { render } = getContext('three');
 	let moveTimeout = null;
@@ -26,7 +26,7 @@
 	export let mesh = null, geo = null;
 
 	const ratio = window.innerWidth/window.innerHeight;
-	const scaledSize = size * map(ratio, 0.56, 2, 0.4, 1);
+	const scaledSize = size * map(ratio, 0.56, 2, 0.38, 1);
 
 	loadFont(fontPath, (err, font) => {
 
@@ -83,7 +83,7 @@
 			const shiftY = -geo.layout.height*0.5 * mesh.scale.x;
 			mesh.position.x = isFlipped ? -shiftX : shiftX;
 			mesh.position.y = isFlipped ? -shiftY : shiftY;
-			if (index !== null) mesh.position.y -= ((1.5) * index) + 5;
+			if (index !== null) mesh.position.y -= ((distance) * index) + 5;
 			// mesh.position.y = -((1.5) * index) - 0.25;
 
 			mesh.rotateOnWorldAxis(new Vector3(0,0,1), rotateZ);

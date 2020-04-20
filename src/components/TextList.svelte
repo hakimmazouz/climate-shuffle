@@ -4,7 +4,7 @@
 	import { Group, BoxHelper, Vector3 } from 'three$';
 	import { render, camera, scene, currentSection, prevSection } from './../three/config'
 	import Text from './Text.svelte'
-	import { constrain } from './../utils'
+	import { constrain, mapConstrain } from './../utils'
 	import {SECTIONS} from './../utils/const'
 	import throttle from 'lodash/throttle'
 
@@ -19,6 +19,9 @@
 	group.name = "TextList";
 	group.position.z = z;
 	parent.add(group);
+
+	const ratio = window.innerWidth/window.innerHeight;
+	const listItemDistance =  mapConstrain(ratio, 0.60, 1.76, 1, 1.5);
 
 	$: if ($currentSection === SECTIONS.WORK.slug && $currentSection !== $prevSection) {
 		animateTitlesIn();
@@ -127,7 +130,7 @@
 		const nextProject = constrain(currentProject + 1, 0, items.length - 1);
 
 		gsap.to(group.position, {
-			y: nextProject * 1.5,
+			y: nextProject * listItemDistance,
 			duration: 1,
 			ease: 'power3.out',
 		})
@@ -139,7 +142,7 @@
 		const nextProject = constrain(currentProject - 1, 0, items.length - 1);
 
 		gsap.to(group.position, {
-			y: nextProject * 1.5,
+			y: nextProject * listItemDistance,
 			duration: 1,
 			ease: 'power3.out',
 		})
@@ -171,5 +174,5 @@
 </script>
 
 {#each items as item, index}
-	<Text bind:mesh={titleMesh[index]} title={item} selectedStatus={selectedStatus[index].value} index={index} progress={progressVal[index].value} />
+	<Text bind:mesh={titleMesh[index]} title={item} distance={listItemDistance} selectedStatus={selectedStatus[index].value} index={index} progress={progressVal[index].value} />
 {/each}
