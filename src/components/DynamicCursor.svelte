@@ -8,6 +8,14 @@
 	}
 	export const cursorData = writable({
 		state: CURSOR_STATE.DEFAULT,
+		delta: {
+			x: 0,
+			y: 0
+		},
+		normalizedPosition: {
+			x: spring(0, {damping: .95, stiffness: .02}),
+			y: spring(0, {damping: .95, stiffness: .02})
+		},
 		position: {
 			x: spring(0),
 			y: spring(0)
@@ -17,16 +25,22 @@
 
 <script>
 	import { onMount } from 'svelte';
+import { mapConstrain } from '../utils';
 
 	export const size = 40;
 
 	const {
-		x, y
-	} = $cursorData.position;
+		position: {x, y},
+		normalizedPosition: {x: nX, y: nY}
+	} = $cursorData;
 
 	function updatePosition({clientX, clientY}) {
+		$cursorData.delta.x = clientX - $x
+		$cursorData.delta.y = clientY - $y
 		x.set(clientX);
 		y.set(clientY);
+		nX.set(mapConstrain(clientX/window.innerWidth, 0, 1, -1, 1));
+		nY.set(mapConstrain(clientY/window.innerHeight, 0, 1, -1, 1))
 	}
 	onMount(() => {
 		document.body.addEventListener('mouseenter', updatePosition, {passive: true});

@@ -3,6 +3,9 @@
 	import { camera, currentSection, distortion } from './../three/config';
 	import { SECTIONS } from './../utils/const'
 	import { constrain, mapConstrain } from './../utils'
+import { onMount } from 'svelte';
+import { cursorData } from './DynamicCursor.svelte';
+import { Vector3 } from 'three';
 
 	const {
 		ME, 
@@ -10,8 +13,17 @@
 		THOUGHTS
 	} = SECTIONS;
 	let prevRoute = null;
+	let moving = false;
 
 	$: lastZ = $camera ? $camera.position.z : 0;
+
+	function onStart() {
+		moving = true
+	}
+
+	function onComplete() {
+		moving = false
+	}
 
 	function onUpdate() {
 		const zDiff = $camera.position.z - lastZ;
@@ -37,6 +49,8 @@
 				gsap.to($camera.position, 2, {
 					z: ME.z + 5,
 					ease: "power4.inOut",
+					onStart,
+					onComplete,
 					onUpdate
 				});
 				gsap.to($camera.rotation, 3, {
@@ -47,7 +61,8 @@
 			case WORK.slug:
 				gsap.to($camera.position, 2, {
 					z: WORK.z + 5,
-					delay: 0.25,
+					delay: 0.25,onStart,
+					onComplete,
 					ease: "power4.inOut",
 					onUpdate
 				});
@@ -59,7 +74,8 @@
 			case THOUGHTS.slug:
 				gsap.to($camera.position, 2, {
 					z: THOUGHTS.z + 5,
-					ease: "power4.inOut",
+					ease: "power4.inOut",onStart,
+					onComplete,
 					onUpdate
 				});
 				break;
@@ -69,4 +85,18 @@
 
 		prevRoute = $currentSection;
 	}
+
+	onMount(() => {
+		const unsubX = $cursorData.normalizedPosition.x.subscribe(v => {
+			$camera.position.x = v
+		})
+		const unsubY = $cursorData.normalizedPosition.y.subscribe(v => {
+			$camera.position.y = -v*.5
+			$camera.lookAt(new Vector3(0, 0, $camera.position.z-5))
+		})
+		return () => {
+			unsubX()
+			unsubY()
+		}
+	});
 </script>

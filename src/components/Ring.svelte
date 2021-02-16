@@ -12,6 +12,7 @@ export let radius = 4, idleSpin = true, originRotation = 0, originRotationAxis =
 		mesh: undefined,
 		x: Math.sin(Math.PI*2/length * index) * radius,
 		y: Math.cos(Math.PI*2/length * index) * radius,
+		z: 5,
 		index
 	}));
 

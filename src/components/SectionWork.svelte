@@ -4,9 +4,9 @@
 	import TextList from './TextList.svelte';
 	import { currentSection, prevSection } from './../three/config'
 	import { createArray } from './../utils'
-	import { SECTIONS } from './../utils/const'
+	import { PROJECTS, SECTIONS } from './../utils/const'
 
-	let projects = ["Yeezy", "Paper Collective", "Dwarf", "Ramasjang", "Kammeradvokat", "Knabstrup"].map(c => c.toUpperCase());
+	let projects = PROJECTS
 	let amountPerProject = 15;
 	let lights = createArray(projects.length * amountPerProject, () => ({value: 0}));
 	let currentProject;

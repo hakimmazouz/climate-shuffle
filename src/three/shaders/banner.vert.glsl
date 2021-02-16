@@ -42,7 +42,7 @@ void main() {
   float rightEdge = width*progress + width*0.33;
   p.z += clamp(smoothstep(rightEdge, leftEdge, p.x), 0., 1.);
   p.z -= 0.45;
-  p.z += selected * 0.6;
+  p.z += selected * .8;
   // p.x += (sin(p.x * freq + time) * 0.5 + 0.5) * 100. * (1. - selected);
   // p.y += random(p.xy + time) * 2. * (1. - selected);
   // p.x += random(p.xy + time) * -200. * (1. - selected);
